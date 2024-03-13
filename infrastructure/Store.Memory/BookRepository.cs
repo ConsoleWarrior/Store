@@ -7,8 +7,8 @@
             new Book(1,"Белый клык"),
             new Book(2,"Алая чума"),
             new Book(3,"Мартин Иден"),
-            new Book(1,"Черный клык"),
-
+            new Book(4,"Джон Ячменное Зерно"),
+            new Book(5,"Черный клык"),
         };
         public Book[] GetAllByTitle(string titlePart)
         {
