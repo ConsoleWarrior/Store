@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Store
 {
-    public interface IBookRepository
+    public class BookService
     {
-        Book[] GetAllByTitleOrAuthor(string titleOrAuthorPart);
-        Book[] GetAllByIsbn(string isbn);
+        public Book[] GetAllByQuery(string query)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
