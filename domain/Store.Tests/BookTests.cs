@@ -26,5 +26,17 @@ namespace Store.Tests
             bool actual = Book.IsIsbn("IsBn 111-0 456-543");
             Assert.True(actual);
         }
+        [Fact]
+        public void IsIsbn_Whith13_ReturnTrue()
+        {
+            bool actual = Book.IsIsbn("IsBn 111-0 456-543 111");
+            Assert.True(actual);
+        }
+        [Fact]
+        public void IsIsbn_WhithTrashStartAndEnd_ReturnFalse()
+        {
+            bool actual = Book.IsIsbn("asdsIsBn 111-0 456-543hfghfgj");
+            Assert.False(actual);
+        }
     }
 }
