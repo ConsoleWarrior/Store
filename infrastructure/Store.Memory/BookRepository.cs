@@ -4,15 +4,24 @@
     {
         private readonly Book[] books = new[]
         {
-            new Book(1,"Белый клык"),
-            new Book(2,"Алая чума"),
-            new Book(3,"Мартин Иден"),
-            new Book(4,"Джон Ячменное Зерно"),
-            new Book(5,"Черный клык"),
+            new Book(1,"Белый клык","ISBN0000000001","Джек Лондон"),
+            new Book(2,"Алая чума", "ISBN0000000002", "Джек Лондон"),
+            new Book(3,"Мартин Иден", "ISBN0000000003", "Джек Лондон"),
+            new Book(4,"Джон Ячменное Зерно", "ISBN0000000004","Джек Лондон"),
+            new Book(5,"Черный клык","ISBN0000000005","Неизвестен"),
         };
-        public Book[] GetAllByTitle(string titlePart)
+
+        public Book[] GetAllByIsbn(string isbn)
         {
-            return books.Where(book => book.Title.Contains(titlePart)).ToArray();
+            return books.Where(book => book.Isbn == isbn.Replace(" ", "").Replace("-", "").ToUpper())
+                        .ToArray();
+        }
+
+        public Book[] GetAllByTitleOrAuthor(string titleOrAuthorPart)
+        {
+            return books.Where(book => book.Title.Contains(titleOrAuthorPart)||
+                                       book.Author.Contains(titleOrAuthorPart))
+                        .ToArray();
         }
     }
 }
