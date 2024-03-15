@@ -16,7 +16,8 @@ namespace Store
 
         public Book[] GetAllByQuery(string query)
         {
-            if(Book.IsIsbn(query)) return bookRepository.GetAllByIsbn(query);
+            if (query == null) return new Book[0];
+            else if(Book.IsIsbn(query)) return bookRepository.GetAllByIsbn(query);
             else return bookRepository.GetAllByTitleOrAuthor(query);
         }
     }
