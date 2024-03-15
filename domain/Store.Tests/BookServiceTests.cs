@@ -17,11 +17,11 @@ namespace Store.Tests
             var bookRepository = new StubBookRepository();
             bookRepository.ResultGetAllByIsbn = new[]
             {
-                new Book(idOfIsbnSearch,"","","")
+                new Book(idOfIsbnSearch, "", "", "", 100, "sdfsf")
             };
             bookRepository.ResultGetAllByTitleOrAuthor = new[]
 {
-                new Book(idOfAuthorSearch,"","","")
+                new Book(idOfAuthorSearch, "", "", "", 100, "sdfsf")
             };
 
             var bookService = new BookService(bookRepository);
@@ -40,11 +40,11 @@ namespace Store.Tests
             var bookRepository = new StubBookRepository();
             bookRepository.ResultGetAllByIsbn = new[]
             {
-                new Book(idOfIsbnSearch,"","","")
+                new Book(idOfIsbnSearch, "", "", "", 100, "sdfsf")
             };
             bookRepository.ResultGetAllByTitleOrAuthor = new[]
 {
-                new Book(idOfAuthorSearch,"","","")
+                new Book(idOfAuthorSearch, "", "", "", 100, "sdfsf")
             };
 
             var bookService = new BookService(bookRepository);
