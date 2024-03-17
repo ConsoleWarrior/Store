@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Mvc;
 using Store.web.Models;
 
 namespace Store.web.Controllers
@@ -13,6 +14,7 @@ namespace Store.web.Controllers
 			this.bookRepository = bookRepository;
 			this.orderRepository = orderRepository;
 		}
+
 		public IActionResult Index()
 		{
 			if (HttpContext.Session.TryGetCart(out Cart cart))
@@ -24,27 +26,54 @@ namespace Store.web.Controllers
 			}
 			return View("Empty");
 		}
-		public IActionResult AddItem(int id)
+
+		private (Order order, Cart cart) GetOrCreateOrderAndCart()
 		{
 			Order order;
-			Cart cart;
-			if (HttpContext.Session.TryGetCart(out cart))
+			if (HttpContext.Session.TryGetCart(out Cart cart))
 				order = orderRepository.GetByID(cart.OrderId);
 			else
 			{
 				order = orderRepository.Create();
 				cart = new Cart(order.Id);
 			}
+			return (order, cart);
+		}
 
-			var book = bookRepository.GetById(id);
-			order.AddItem(book, 1);
+		private void SaveOrderAndCart(Order order, Cart cart)
+		{
 			orderRepository.Update(order);
 			cart.TotalCount = order.TotalCount;
 			cart.TotalPrice = order.TotalPrice;
 
 			HttpContext.Session.Set(cart);
-			return RedirectToAction("Index", "Book", new { id });
 		}
+
+		public IActionResult UpdateItem(int bookId,int count)
+		{
+			(Order order, Cart cart) = GetOrCreateOrderAndCart();
+			order.GetItem(bookId).Count = count;
+			SaveOrderAndCart(order, cart);
+            return RedirectToAction("Index", "Order");
+        }
+
+		public IActionResult AddItem(int bookId, int count=1)
+		{
+			(Order order, Cart cart) = GetOrCreateOrderAndCart();
+			var book = bookRepository.GetById(bookId);
+			order.AddOrUpdateItem(book, count);
+			SaveOrderAndCart(order, cart);
+			return RedirectToAction("Index", "Book", new { id = bookId });
+		}
+
+		public IActionResult RemoveItem(int bookId)
+		{
+			(Order order, Cart cart) = GetOrCreateOrderAndCart();
+			order.RemoveItem(bookId);
+			SaveOrderAndCart(order, cart);
+			return RedirectToAction("Index", "Order");
+		}
+
 		private OrderModel Map(Order order)
 		{
 			var bookIds = order.Items.Select(item => item.BookId);

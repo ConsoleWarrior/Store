@@ -25,5 +25,11 @@ namespace Store.Tests
             Assert.Equal(2, orderItem.Count);
             Assert.Equal(3m, orderItem.Price);
         }
-    }
+		[Fact]
+		public void Count_WithNegativeValue_ThrowsArgumentOutOfRangeExeption()
+		{
+			var orderItem = new OrderItem(1, 5, 3m);
+			Assert.Throws<ArgumentOutOfRangeException>(() => orderItem.Count = -1);
+		}
+	}
 }
