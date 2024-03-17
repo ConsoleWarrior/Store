@@ -10,9 +10,15 @@ namespace Store.Tests
     {
         public Book[] ResultGetAllByIsbn { get; set; }
         public Book[] ResultGetAllByTitleOrAuthor { get; set; }
+        public Book[] ResultGetAllByIds { get; set; }
+        public Book ResultGetById {  get; set; }
 
+		public Book[] GetAllByIds(IEnumerable<int> bookIds)
+		{
+			return ResultGetAllByIds;
+		}
 
-        public Book[] GetAllByIsbn(string isbn)
+		public Book[] GetAllByIsbn(string isbn)
         {
             return ResultGetAllByIsbn;
         }
@@ -24,7 +30,7 @@ namespace Store.Tests
 
         public Book GetById(int id)
         {
-            throw new NotImplementedException();
+            return ResultGetById;
         }
     }
 }
