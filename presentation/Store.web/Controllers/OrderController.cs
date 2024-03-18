@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Store.web.Models;
+using System.Text.RegularExpressions;
+using Store.Messages;
 
 namespace Store.web.Controllers
 {
@@ -8,13 +10,15 @@ namespace Store.web.Controllers
 	{
 		private readonly IBookRepository bookRepository;
 		private readonly IOrderRepository orderRepository;
+		private readonly INotificationService notificationService;
 
-		public OrderController(IBookRepository bookRepository, IOrderRepository orderRepository)
+		public OrderController(IBookRepository bookRepository, IOrderRepository orderRepository, INotificationService notificationService)
 		{
 			this.bookRepository = bookRepository;
 			this.orderRepository = orderRepository;
+			this.notificationService = notificationService;
 		}
-
+		[HttpGet]
 		public IActionResult Index()
 		{
 			if (HttpContext.Session.TryGetCart(out Cart cart))
@@ -48,7 +52,7 @@ namespace Store.web.Controllers
 
 			HttpContext.Session.Set(cart);
 		}
-
+		[HttpPost]
 		public IActionResult UpdateItem(int bookId,int count)
 		{
 			(Order order, Cart cart) = GetOrCreateOrderAndCart();
@@ -56,7 +60,7 @@ namespace Store.web.Controllers
 			SaveOrderAndCart(order, cart);
             return RedirectToAction("Index", "Order");
         }
-
+		[HttpPost]
 		public IActionResult AddItem(int bookId, int count=1)
 		{
 			(Order order, Cart cart) = GetOrCreateOrderAndCart();
@@ -65,7 +69,7 @@ namespace Store.web.Controllers
 			SaveOrderAndCart(order, cart);
 			return RedirectToAction("Index", "Book", new { id = bookId });
 		}
-
+		[HttpPost]
 		public IActionResult RemoveItem(int bookId)
 		{
 			(Order order, Cart cart) = GetOrCreateOrderAndCart();
@@ -95,6 +99,61 @@ namespace Store.web.Controllers
 				TotalCount = order.TotalCount,
 				TotalPrice = order.TotalPrice,
 			};
+		}
+		[HttpPost]
+		public IActionResult SendConfirmationCode(int id,string cellPhone)
+		{
+			var order = orderRepository.GetByID(id);
+			var model = Map(order);
+			if(!IsValidCellPhone(cellPhone))
+			{
+				model.Errors["cellPhone"] = "Номер телефона не соответствует";
+				return View("Index", model);
+			}
+			int code = 1111; //random
+			HttpContext.Session.SetInt32(cellPhone, code);
+			notificationService.SendConfirmationCode(cellPhone, code);
+
+			return View("Confirmation", new ConfirmationModel 
+			{
+				OrderId = id,
+				CellPhone = cellPhone,
+			});
+		}
+
+		private bool IsValidCellPhone(string cellPhone)
+		{
+			if (cellPhone == null)
+				return false;
+			cellPhone = cellPhone.Replace(" ", "")
+								 .Replace("-", "");
+			return Regex.IsMatch(cellPhone, @"^\+?\d{11}$");
+		}
+
+		[HttpPost]
+		public IActionResult StartDelivery(int id, string cellPhone, int code)
+		{
+			int? storedCode = HttpContext.Session.GetInt32(cellPhone); 
+			if(storedCode != code)
+				return View("Confirmation", new ConfirmationModel
+				{
+					OrderId = id,
+					CellPhone = cellPhone,
+					Errors = new Dictionary<string, string> { { "code", "Код отличается от отправленного" } }
+				});
+			if (storedCode == null)
+				return View("Confirmation", new ConfirmationModel
+				{
+					OrderId = id,
+					CellPhone = cellPhone,
+					Errors = new Dictionary<string, string> { { "code", "Пустой код, повторите оптравку" } }
+				});
+			return View("Confirmation", new ConfirmationModel
+			{
+				OrderId = id,
+				CellPhone = cellPhone,
+				Errors = new Dictionary<string, string> { { "code", "Very GOOD!!!" } }
+			});
 		}
 	}
 }

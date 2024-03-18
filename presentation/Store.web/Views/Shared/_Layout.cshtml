@@ -12,9 +12,11 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-light">
             <a class="navbar-brand bg-secondary" asp-area="" asp-controller="Home" asp-action="Index">Онлайн-магазин на C#</a>
-            <form class="form-inline my-2 my-lg-0" action="@Url.Action("Index","Search")" method="get">
-                <input type="search" name="query" placeholder="автор/название/ISBN"/>
-                <button class="bg-primary text-white" type="submit">Поиск</button>
+            <form class="d-flex" action="@Url.Action("Index","Search")" method="get">
+                <div class="input-group mb-3">
+                    <input class="form-control" type="search" name="query" placeholder="автор/название/ISBN" aria-describedby="button-addon2" />
+                    <button class="btn btn-primary" type="submit" id="button-addon2">Поиск</button>
+                </div>
             </form>
             <span class="ms-auto">
                 @{

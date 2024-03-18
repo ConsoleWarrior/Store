@@ -42,3 +42,16 @@
 		</tr>
 	</tfoot>
 </table>
+
+<form action="@Url.Action("SendConfirmationCode")" method="post">
+	<input type="hidden" name="id" value="@Model.Id" />
+	<div class="form-group">
+		<label for="cellPhone">Мобильный телефон</label>
+		<input type="text" class="form-control" name="cellPhone" value="+79998887766" />
+		@if (Model.Errors.ContainsKey("cellPhone"))
+		{
+			<small class="form-text text-danger">@Model.Errors["cellPhone"]</small>
+		}
+		<button class="btn btn-outline-success" type="submit">Отправить код</button>
+	</div>
+</form>
