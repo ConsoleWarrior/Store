@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Store.web.Models;
 using System.Text.RegularExpressions;
 using Store.Messages;
+using Store.Contractors;
 
 namespace Store.web.Controllers
 {
@@ -11,12 +12,14 @@ namespace Store.web.Controllers
 		private readonly IBookRepository bookRepository;
 		private readonly IOrderRepository orderRepository;
 		private readonly INotificationService notificationService;
+		private readonly IEnumerable<IDeliveryService> deliveryServices;
 
-		public OrderController(IBookRepository bookRepository, IOrderRepository orderRepository, INotificationService notificationService)
+		public OrderController(IBookRepository bookRepository, IOrderRepository orderRepository, INotificationService notificationService, IEnumerable<IDeliveryService> deliveryServices)
 		{
 			this.bookRepository = bookRepository;
 			this.orderRepository = orderRepository;
 			this.notificationService = notificationService;
+			this.deliveryServices = deliveryServices;
 		}
 		[HttpGet]
 		public IActionResult Index()
@@ -53,15 +56,15 @@ namespace Store.web.Controllers
 			HttpContext.Session.Set(cart);
 		}
 		[HttpPost]
-		public IActionResult UpdateItem(int bookId,int count)
+		public IActionResult UpdateItem(int bookId, int count)
 		{
 			(Order order, Cart cart) = GetOrCreateOrderAndCart();
 			order.GetItem(bookId).Count = count;
 			SaveOrderAndCart(order, cart);
-            return RedirectToAction("Index", "Order");
-        }
+			return RedirectToAction("Index", "Order");
+		}
 		[HttpPost]
-		public IActionResult AddItem(int bookId, int count=1)
+		public IActionResult AddItem(int bookId, int count = 1)
 		{
 			(Order order, Cart cart) = GetOrCreateOrderAndCart();
 			var book = bookRepository.GetById(bookId);
@@ -101,11 +104,11 @@ namespace Store.web.Controllers
 			};
 		}
 		[HttpPost]
-		public IActionResult SendConfirmationCode(int id,string cellPhone)
+		public IActionResult SendConfirmationCode(int id, string cellPhone)
 		{
 			var order = orderRepository.GetByID(id);
 			var model = Map(order);
-			if(!IsValidCellPhone(cellPhone))
+			if (!IsValidCellPhone(cellPhone))
 			{
 				model.Errors["cellPhone"] = "Номер телефона не соответствует";
 				return View("Index", model);
@@ -114,7 +117,7 @@ namespace Store.web.Controllers
 			HttpContext.Session.SetInt32(cellPhone, code);
 			notificationService.SendConfirmationCode(cellPhone, code);
 
-			return View("Confirmation", new ConfirmationModel 
+			return View("Confirmation", new ConfirmationModel
 			{
 				OrderId = id,
 				CellPhone = cellPhone,
@@ -133,8 +136,8 @@ namespace Store.web.Controllers
 		[HttpPost]
 		public IActionResult StartDelivery(int id, string cellPhone, int code)
 		{
-			int? storedCode = HttpContext.Session.GetInt32(cellPhone); 
-			if(storedCode != code)
+			int? storedCode = HttpContext.Session.GetInt32(cellPhone);
+			if (storedCode != code)
 				return View("Confirmation", new ConfirmationModel
 				{
 					OrderId = id,
@@ -148,12 +151,19 @@ namespace Store.web.Controllers
 					CellPhone = cellPhone,
 					Errors = new Dictionary<string, string> { { "code", "Пустой код, повторите оптравку" } }
 				});
-			return View("Confirmation", new ConfirmationModel
+
+			// todo: сохранить номер телефона
+
+			HttpContext.Session.Remove(cellPhone);
+			var model = new DeliveryModel()
 			{
 				OrderId = id,
-				CellPhone = cellPhone,
-				Errors = new Dictionary<string, string> { { "code", "Very GOOD!!!" } }
-			});
+				Methods = deliveryServices.ToDictionary(service => service.UniqueCode,
+														service => service.Title)
+			};
+
+			return View("DeliveryMethod", model);
+
 		}
 	}
 }
