@@ -1,4 +1,5 @@
 using Store;
+using Store.Contractors;
 using Store.Memory;
 using Store.Messages;
 
@@ -11,6 +12,7 @@ builder.Services.AddSingleton<IBookRepository, BookRepository>();
 builder.Services.AddSingleton<IOrderRepository, OrderRepository>();
 builder.Services.AddSingleton<BookService>();
 builder.Services.AddSingleton<INotificationService, DebugNotificationService>();
+builder.Services.AddSingleton<IDeliveryService, PostamateDeliveryService>();
 builder.Services.AddDistributedMemoryCache(); //для корзины
 builder.Services.AddSession(options =>
 {

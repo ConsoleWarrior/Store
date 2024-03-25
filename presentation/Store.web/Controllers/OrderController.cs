@@ -134,7 +134,7 @@ namespace Store.web.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult StartDelivery(int id, string cellPhone, int code)
+		public IActionResult Confirmate(int id, string cellPhone, int code)
 		{
 			int? storedCode = HttpContext.Session.GetInt32(cellPhone);
 			if (storedCode != code)
@@ -164,6 +164,24 @@ namespace Store.web.Controllers
 
 			return View("DeliveryMethod", model);
 
+		}
+		public IActionResult StartDelivery(int id, string uniqueCode)
+		{
+			var deliveryService = deliveryServices.Single(service => service.UniqueCode == uniqueCode);
+			var order = orderRepository.GetByID(id);
+
+			var form = deliveryService.CreateForm(order);
+			return View("DeliveryStep", form);
+		}
+
+		public IActionResult NextDelivery(int id, string uniqueCode, int step, IReadOnlyDictionary<string, string> values)
+		{
+			var deliveryService = deliveryServices.Single(service => service.UniqueCode == uniqueCode);
+			var form = deliveryService.MoveNext(id, step, values);
+
+			if (form.IsFinal) return null; // нужны состояния заказов
+
+			return View("DeliveryStep", form);
 		}
 	}
 }
