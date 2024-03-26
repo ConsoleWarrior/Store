@@ -174,7 +174,7 @@ namespace Store.web.Controllers
 			return View("DeliveryStep", form);
 		}
 
-		public IActionResult NextDelivery(int id, string uniqueCode, int step, IReadOnlyDictionary<string, string> values)
+		public IActionResult NextDelivery(int id, string uniqueCode, int step, Dictionary<string, string> values)
 		{
 			var deliveryService = deliveryServices.Single(service => service.UniqueCode == uniqueCode);
 			var form = deliveryService.MoveNext(id, step, values);

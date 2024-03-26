@@ -12,6 +12,6 @@ namespace Store.Contractors
         string Title { get; }
 
         Form CreateForm(Order order);
-        Form MoveNext(int orderId, int step, IReadOnlyDictionary<string, string> values);
+        Form MoveNext(int orderId, int step, Dictionary<string, string> values);
     }
 }

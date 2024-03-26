@@ -9,12 +9,12 @@ namespace Store.Contractors
 {
 	public class PostamateDeliveryService : IDeliveryService //класс заглушка для тестов
 	{
-		private static IReadOnlyDictionary<string, string> cities = new Dictionary<string, string>
+		private static Dictionary<string, string> cities = new Dictionary<string, string>
 		{
 			{ "1", "Moscow"},
 			{ "2", "Peterburg"}
 		};
-		private static IReadOnlyDictionary<string, IReadOnlyDictionary<string, string>> postamates = new Dictionary<string, IReadOnlyDictionary<string, string>>
+		private static Dictionary<string, Dictionary<string, string>> postamates = new Dictionary<string, Dictionary<string, string>>
 		{
 			{ "1", new Dictionary<string,string>
 				{
@@ -47,7 +47,7 @@ namespace Store.Contractors
 			});
 		}
 
-		public Form MoveNext(int orderId, int step, IReadOnlyDictionary<string, string> values)
+		public Form MoveNext(int orderId, int step,	Dictionary<string, string> values)
 		{
 			if (step == 1)
 			{
