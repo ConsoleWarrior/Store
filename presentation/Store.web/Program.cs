@@ -2,6 +2,8 @@ using Store;
 using Store.Contractors;
 using Store.Memory;
 using Store.Messages;
+using Store.web.Contractors;
+using Store.YandexCassa;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +15,9 @@ builder.Services.AddSingleton<IOrderRepository, OrderRepository>();
 builder.Services.AddSingleton<BookService>();
 builder.Services.AddSingleton<INotificationService, DebugNotificationService>();
 builder.Services.AddSingleton<IDeliveryService, PostamateDeliveryService>();
+builder.Services.AddSingleton<IPaymentService, CashPaymentService>();
+builder.Services.AddSingleton<IPaymentService, YandexCassaPaymentService>();
+builder.Services.AddSingleton<IWebContractorService, YandexCassaPaymentService>();
 builder.Services.AddDistributedMemoryCache(); //для корзины
 builder.Services.AddSession(options =>
 {
@@ -40,5 +45,9 @@ app.UseSession();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapAreaControllerRoute(
+	name: "yandex.cassa",
+    areaName: "YandexCassa",
+	pattern: "YandexCassa/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

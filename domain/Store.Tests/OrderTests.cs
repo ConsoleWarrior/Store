@@ -31,9 +31,9 @@ namespace Store.Tests
         {
             var order = new Order(1, new OrderItem[]
             {
-                new OrderItem(1, 3, 10m),
-                new OrderItem(2, 2, 100m)
-            });
+                new OrderItem(1, 10m, 3),
+                new OrderItem(2, 100m, 2)
+			});
             Assert.Equal(3*10m + 2*100m, order.TotalPrice);
         }
 		[Fact]
@@ -41,8 +41,8 @@ namespace Store.Tests
 		{
 			var order = new Order(1, new OrderItem[]
 			{
-				new OrderItem(1, 3, 10m),
-				new OrderItem(2, 5, 100m)
+				new OrderItem(1, 10m, 3),
+				new OrderItem(2, 100m, 5)
 			});
             var orderItem = order.GetItem(2);
 			Assert.Equal(5, orderItem.Count);
@@ -52,8 +52,8 @@ namespace Store.Tests
 		{
 			var order = new Order(1, new OrderItem[]
 			{
-				new OrderItem(1, 3, 10m),
-				new OrderItem(2, 5, 100m)
+				new OrderItem(1, 10m, 3),
+				new OrderItem(2, 100m, 5)
 			});
 			Assert.Throws<InvalidOperationException>(() => order.GetItem(200));
 		}
@@ -62,9 +62,9 @@ namespace Store.Tests
         {
 			var order = new Order(1, new OrderItem[]
             {
-				new OrderItem(1, 3, 10m),
-				new OrderItem(2, 5, 100m)
-            });
+				new OrderItem(1, 10m, 3),
+				new OrderItem(2, 100m, 5)
+			});
             var book = new Book(1,null,null,null,null,0m);
             order.AddOrUpdateItem(book, 10);
             Assert.Equal(13,order.GetItem(1).Count);
@@ -74,8 +74,8 @@ namespace Store.Tests
 		{
 			var order = new Order(1, new OrderItem[]
 			{
-				new OrderItem(1, 3, 10m),
-				new OrderItem(2, 5, 100m)
+				new OrderItem(1, 10m, 3),
+				new OrderItem(2, 100m, 5)
 			});
 			var book = new Book(4, null, null, null, null, 0m);
 			order.AddOrUpdateItem(book, 10);
@@ -86,8 +86,8 @@ namespace Store.Tests
 		{
 			var order = new Order(1, new OrderItem[]
 			{
-				new OrderItem(1, 3, 10m),
-				new OrderItem(2, 5, 100m)
+				new OrderItem(1, 10m, 3),
+				new OrderItem(2, 100m, 5)
 			});
 			order.RemoveItem(1);
 			Assert.Equal(1, order.Items.Count);
@@ -97,8 +97,8 @@ namespace Store.Tests
 		{
 			var order = new Order(1, new OrderItem[]
 			{
-				new OrderItem(1, 3, 10m),
-				new OrderItem(2, 5, 100m)
+				new OrderItem(1, 10m, 3),
+				new OrderItem(2, 100m, 5)
 			});
 			Assert.Throws<InvalidOperationException>(() => order.RemoveItem(100));
 		}

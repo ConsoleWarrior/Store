@@ -16,7 +16,11 @@ namespace Store
 		}
 		public int TotalCount => items.Sum(item => item.Count);
 
-		public decimal TotalPrice => items.Sum(item => item.Price * item.Count);
+		public decimal TotalPrice => items.Sum(item => item.Price * item.Count) + (Delivery?.Amount ?? 0m); // если деливери null - прибавь 0m
+		public string CellPhone {  get; set; }
+		public OrderDelivery Delivery { get; set; }
+		public OrderPayment Payment { get; set; }
+
 
 		public Order(int id, IEnumerable<OrderItem> items)
 		{
@@ -41,7 +45,7 @@ namespace Store
 
 			int index = items.FindIndex(item => item.BookId == book.Id);
 			if (index == -1)
-				items.Add(new OrderItem(book.Id, count, book.Price));
+				items.Add(new OrderItem(book.Id, book.Price, count));
 			else
 				items[index].Count += count;
 		}

@@ -1,4 +1,5 @@
 ﻿using Store.web.Models;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Store.web
@@ -42,6 +43,11 @@ namespace Store.web
             }
             value = null;
             return false;
+        }
+
+        public static void RemoveCart(this ISession session)
+        {
+            session.Remove(key);
         }
     }
 }
