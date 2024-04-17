@@ -25,7 +25,7 @@ namespace Store
 		public OrderItemCollection(IEnumerable<OrderItem> items)
 		{
 			if(items == null) throw new ArgumentNullException(nameof(items));
-			this.items = new List<OrderItem>(items);
+			this.items = new List<OrderItem>(items); 
 		}
 		public int Count => items.Count;
 
