@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Store.web.Models;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace Store.web
+namespace Store.web.App
 {
     public static class SessionExtensions
     {
