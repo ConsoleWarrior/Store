@@ -20,19 +20,11 @@ namespace Store.Contractors
         }
     }
 
-    public class HiddenField : Field
-    {
-        public HiddenField(string label, string name, string value)
-            :base(label,name,value)
-        {
-        }
-    }
-
     public class SelectionField : Field
     {
-        public Dictionary<string, string> Items { get; }
+        public IReadOnlyDictionary<string, string> Items { get; }
 
-        public SelectionField(string label, string name, string value, Dictionary<string,string> items)
+        public SelectionField(string label, string name, string value, IReadOnlyDictionary<string,string> items)
             : base(label, name, value)
         {
             Items = items;
