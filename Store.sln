@@ -17,15 +17,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.web", "presentation\S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.Tests", "domain\Store.Tests\Store.Tests.csproj", "{63BB99E3-F4D2-4EF0-9967-031C695CF252}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store.web.Contractors", "presentation\Store.web.Contractors\Store.web.Contractors.csproj", "{CBF02FB5-AE3D-409E-962B-3CB996207C0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.web.Contractors", "presentation\Store.web.Contractors\Store.web.Contractors.csproj", "{CBF02FB5-AE3D-409E-962B-3CB996207C0F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "plugins", "plugins", "{F525B26D-D845-4FC9-A974-11D1F0DDAD28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store.YandexCassa", "plugins\Store.YandexCassa\Store.YandexCassa.csproj", "{FAD33613-25FC-418E-B542-E081F6514967}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.YandexCassa", "plugins\Store.YandexCassa\Store.YandexCassa.csproj", "{FAD33613-25FC-418E-B542-E081F6514967}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "application", "application", "{064242F6-12F2-4FCC-9CA4-D1F095A0B771}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Store.web.App", "application\Store.web.App\Store.web.App.csproj", "{105F897A-FEE1-448C-BC8C-4BCEB007E3F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Store.web.App", "application\Store.web.App\Store.web.App.csproj", "{105F897A-FEE1-448C-BC8C-4BCEB007E3F1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CB364994-27A2-4C90-AE07-F701DE7047DB} = {CB364994-27A2-4C90-AE07-F701DE7047DB}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
