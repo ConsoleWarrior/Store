@@ -1,6 +1,5 @@
 using Store;
 using Store.Contractors;
-using Store.Memory;
 using Store.Messages;
 using Store.web.App;
 using Store.web.Contractors;
@@ -11,8 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container. Внедрение зависимостей
 builder.Services.AddControllersWithViews();
-builder.Services.AddSingleton<IBookRepository, BookRepository>();
-builder.Services.AddSingleton<IOrderRepository, OrderRepository>();
 builder.Services.AddSingleton<BookService>();
 builder.Services.AddSingleton<OrderService>();
 builder.Services.AddHttpContextAccessor();
