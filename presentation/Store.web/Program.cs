@@ -4,6 +4,7 @@ using Store.Messages;
 using Store.web.App;
 using Store.web.Contractors;
 using Store.YandexKassa;
+using Store.Data.EF;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +14,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<BookService>();
 builder.Services.AddSingleton<OrderService>();
 builder.Services.AddHttpContextAccessor();
-
+builder.Services.AddEfRepositories(builder.Configuration.GetConnectionString("Store"));
 builder.Services.AddSingleton<INotificationService, DebugNotificationService>();
 builder.Services.AddSingleton<IDeliveryService, PostamateDeliveryService>();
 builder.Services.AddSingleton<IPaymentService, CashPaymentService>();
