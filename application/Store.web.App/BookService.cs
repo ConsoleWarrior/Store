@@ -19,8 +19,9 @@ namespace Store
         {
             var books = Book.IsIsbn(query)
                 ? bookRepository.GetAllByIsbn(query)
-                : bookRepository.GetAllByTitleOrAuthor(query);
-            return books.Select(Map).ToArray();
+                : (query != null) ? bookRepository.GetAllByTitleOrAuthor(query)
+                : null;
+            return books?.Select(Map).ToArray();
             //if (query == null) return new Book[0];
             //else if(Book.IsIsbn(query)) return bookRepository.GetAllByIsbn(query);
             //else return bookRepository.GetAllByTitleOrAuthor(query);

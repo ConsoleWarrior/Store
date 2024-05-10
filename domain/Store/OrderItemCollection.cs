@@ -1,88 +1,83 @@
-﻿using System;
+﻿using Store.Data;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Store
 {
-	public class OrderItemCollection : IReadOnlyCollection<OrderItem>
-	{
-		private readonly List<OrderItem> items;
+    public class OrderItemCollection : IReadOnlyCollection<OrderItem>
+    {
+        private readonly OrderDto orderDto;
+        private readonly List<OrderItem> items;
 
-		//public OrderItemCollection(OrderDto orderDto)
-		//{
-		//	if (orderDto == null)
-		//		throw new ArgumentNullException(nameof(orderDto));
+        public OrderItemCollection(OrderDto orderDto)
+        {
+            if (orderDto == null)
+                throw new ArgumentNullException(nameof(orderDto));
 
-		//	this.orderDto = orderDto;
+            this.orderDto = orderDto;
 
-		//	items = orderDto.Items
-		//					.Select(OrderItem.Mapper.Map)
-		//					.ToList();
-		//}
-		public OrderItemCollection(IEnumerable<OrderItem> items)
-		{
-			if(items == null) throw new ArgumentNullException(nameof(items));
-			this.items = new List<OrderItem>(items); 
-		}
-		public int Count => items.Count;
+            items = orderDto.Items
+                            .Select(OrderItem.Mapper.Map)
+                            .ToList();
+        }
 
-		public IEnumerator<OrderItem> GetEnumerator()
-		{
-			return items.GetEnumerator();
-		}
+        public int Count => items.Count;
 
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return (items as IEnumerable).GetEnumerator();
-		}
+        public IEnumerator<OrderItem> GetEnumerator()
+        {
+            return items.GetEnumerator();
+        }
 
-		public OrderItem Get(int bookId)
-		{
-			if (TryGet(bookId, out OrderItem orderItem))
-				return orderItem;
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return (items as IEnumerable).GetEnumerator();
+        }
 
-			throw new InvalidOperationException("Book not found.");
-		}
-		public bool TryGet(int bookId, out OrderItem orderItem)
-		{
-			var index = items.FindIndex(item => item.BookId == bookId);
-			if (index == -1)
-			{
-				orderItem = null;
-				return false;
-			}
+        public OrderItem Get(int bookId)
+        {
+            if (TryGet(bookId, out OrderItem orderItem))
+                return orderItem;
 
-			orderItem = items[index];
-			return true;
-		}
+            throw new InvalidOperationException("Book not found.");
+        }
 
-		public OrderItem Add(int bookId, decimal price, int count)
-		{
-			if (TryGet(bookId, out OrderItem orderItem))
-				throw new InvalidOperationException("Book already exists.");
+        public bool TryGet(int bookId, out OrderItem orderItem)
+        {
+            var index = items.FindIndex(item => item.BookId == bookId);
+            if (index == -1)
+            {
+                orderItem = null;
+                return false;
+            }
 
-			//var orderItemDto = OrderItem.DtoFactory.Create(orderDto, bookId, price, count);
-			//orderDto.Items.Add(orderItemDto);
+            orderItem = items[index];
+            return true;
+        }
 
-			orderItem = new OrderItem(bookId, price, count);
-			items.Add(orderItem);
+        public OrderItem Add(int bookId, decimal price, int count)
+        {
+            if (TryGet(bookId, out OrderItem orderItem))
+                throw new InvalidOperationException("Book already exists.");
 
-			return orderItem;
-		}
+            var orderItemDto = OrderItem.DtoFactory.Create(orderDto, bookId, price, count);
+            orderDto.Items.Add(orderItemDto);
 
-		public void Remove(int bookId)
-		{
-			//var index = items.FindIndex(item => item.BookId == bookId);
-			//if (index == -1)
-			//	throw new InvalidOperationException("Can't find book to remove from order.");
+            orderItem = OrderItem.Mapper.Map(orderItemDto);
+            items.Add(orderItem);
 
-			//orderDto.Items.RemoveAt(index);
-			//items.RemoveAt(index);
+            return orderItem;
+        }
 
-			items.Remove(Get(bookId));
-		}
-	}
+        public void Remove(int bookId)
+        {
+            var index = items.FindIndex(item => item.BookId == bookId);
+            if (index == -1)
+                throw new InvalidOperationException("Can't find book to remove from order.");
+
+            orderDto.Items.RemoveAt(index);
+            items.RemoveAt(index);
+        }
+    }
 }
