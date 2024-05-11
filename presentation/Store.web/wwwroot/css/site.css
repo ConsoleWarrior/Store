@@ -1,25 +1,57 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin: 5px;
-
+    margin: 5px;
+    background: url('/images/back.jpeg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 1;
 }
 
+.container {
+    background: white;
+    border: 2px solid black;
+    padding: 5px;
+    margin-top: 5px;
+}
 
+#bottom-right {
+    right: 7%;
+    bottom: 0;
+    position: absolute;
+}
+
+.text-center {
+    text-align: center;
+}
+.navbar {
+    border: 2px solid black;
+}
+.navbar-brand {
+    border: 2px solid black;
+    padding: 3px;
+
+}
+.d-flex {
+}
+.x {
+    padding: 3px;
+    border: 2px solid black;
+}
