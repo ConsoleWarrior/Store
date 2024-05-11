@@ -7,4 +7,5 @@
 * Принципы SOLID
 * DDD (Domain Driven Design)
 * ASP.NET MVC
+  
 (по видеоурокам https://www.youtube.com/playlist?list=PLfkikHwnACaXxUu9YGnQQp7VEYcMmuBuq)
