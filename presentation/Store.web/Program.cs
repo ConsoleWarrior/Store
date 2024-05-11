@@ -5,12 +5,16 @@ using Store.web.App;
 using Store.web.Contractors;
 using Store.YandexKassa;
 using Store.Data.EF;
+using Store.Web;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container. Внедрение зависимостей
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+{
+	options.Filters.Add(typeof(ExceptionFilter));
+});
 builder.Services.AddSingleton<BookService>();
 builder.Services.AddSingleton<OrderService>();
 builder.Services.AddHttpContextAccessor();
@@ -32,10 +36,11 @@ builder.Services.AddSession(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline. Конфигурирование
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-}
+//if (!app.Environment.IsDevelopment())
+//{
+//    app.UseExceptionHandler("/Home/Error");
+//}
+app.UseExceptionHandler("/Home/Error");
 app.UseStaticFiles();
 
 app.UseRouting();
