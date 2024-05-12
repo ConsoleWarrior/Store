@@ -1,8 +1,59 @@
-﻿@{
-	ViewData["Title"] = "Заказ оформлен";
+﻿@model OrderModel
+
+@{
+    ViewData["Title"] = "Заказ оформлен";
 }
-<p>Заказ оформлен, мы собираем его для передачи в службу доставки.<a href="#"></a>
-	Ждите SMS</p>
+
 <p>
-	<a href="@Url.Action("Index","Home")">Вернуться на главную</a>
+    Заказ оформлен. Мы собираем его, чтобы передать в службу доставки.
+    Ждите SMS.
+</p>
+
+<table class="table table-sm table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">№</th>
+            <th scope="col">Автор</th>
+            <th scope="col">Название</th>
+            <th scope="col">Количество</th>
+            <th scope="col">Цена</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < Model.Items.Length; i++)
+        {
+            <tr>
+                <td class="text-right">@(i + 1)</td>
+                <td>@Model.Items[i].Author</td>
+                <td>@Model.Items[i].Title</td>
+                <td class="text-right">@Model.Items[i].Count</td>
+                <td class="text-right">@Math.Round(Model.Items[i].Price, 2)₽</td>
+            </tr>
+        }
+        <tr>
+            <td colspan="4">Стоимость доставки</td>
+            <td class="text-right">@Math.Round(Model.DeliveryPrice, 2)₽</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3" class="text-right">Итого</td>
+            <td class="text-right">@Model.TotalCount</td>
+            <td class="text-right">@Math.Round(Model.TotalPrice, 2)₽</td>
+        </tr>
+    </tfoot>
+</table>
+
+<strong>Подробности доставки</strong>
+<pre>
+@Model.DeliveryDescription
+</pre>
+
+<strong>Метод оплаты</strong>
+<pre>
+@Model.PaymentDescription
+</pre>
+
+<p>
+    <a href="@Url.Action("Index", "Home")">Вернутся в магазин</a>.
 </p>
