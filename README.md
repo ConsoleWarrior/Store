@@ -9,3 +9,6 @@
 * ASP.NET MVC
   
 (по видеоурокам https://www.youtube.com/playlist?list=PLfkikHwnACaXxUu9YGnQQp7VEYcMmuBuq)
+
+Add-Migration * -Project Store.Data.EF -StartupProject Store.web
+Update-Database
