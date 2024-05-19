@@ -21,6 +21,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddEfRepositories(builder.Configuration.GetConnectionString("Store"));
 builder.Services.AddSingleton<INotificationService, DebugNotificationService>();
 builder.Services.AddSingleton<IDeliveryService, PostamateDeliveryService>();
+builder.Services.AddSingleton<IDeliveryService, PickupDeliveryService>();
 builder.Services.AddSingleton<IPaymentService, CashPaymentService>();
 builder.Services.AddSingleton<IPaymentService, YandexKassaPaymentService>();
 builder.Services.AddSingleton<IWebContractorService, YandexKassaPaymentService>();
