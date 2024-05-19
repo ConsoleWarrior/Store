@@ -4,12 +4,18 @@
     ViewData["Title"] = Model.Title;
 }
 
-<h1>@Model.Title</h1>
+<div class="text-center">
+    <img style="max-width:25%;max-height:25%;" src="/@Model.Image" alt="@Model.Image" />
+    <h1>@Model.Title</h1>
+    <p><strong>@Model.Author</strong></p>
+    <p>@Model.Description</p>
+    <p>Цена: <strong>@Math.Round(Model.Price, 2)₽</strong></p>
+    <form action="@Url.Action(nameof(OrderController.AddItem), "Order")" method="post">
+        <input type="hidden" name="bookId" value="@Model.Id" />
+        <button class="btn btn-outline-success" type="submit">Добавить экземпляр в корзину</button>
+    </form>
+</div>
 
-<p><strong>@Model.Author</strong></p>
-<p>@Model.Description</p>
-<p>Цена: <strong>@Math.Round(Model.Price, 2)₽</strong></p>
-<form action="@Url.Action(nameof(OrderController.AddItem), "Order")" method = "post">
-    <input type="hidden" name="bookId" value="@Model.Id" />
-    <button class="btn btn-outline-success" type="submit">В корзину</button>
-</form>
+
+
+

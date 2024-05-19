@@ -68,8 +68,8 @@
     right: 0;
     bottom: 0;
     position: absolute;
-    background: #9cbe8c;
-    border: 1px solid black;
+/*    background: #9cbe8c;
+    border: 1px solid black;*/
 }
 .description {
     /*overflow: hidden;*/

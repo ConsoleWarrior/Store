@@ -41,7 +41,7 @@ namespace Store.YandexKassa
 			if (form.ServiceName != Name || !form.IsFinal)
 				throw new InvalidOperationException("Invalid payment form.");
 
-			return new OrderPayment(Name, "Оплатой картой", form.Parameters);
+			return new OrderPayment(Name, "Оплата картой", form.Parameters);
 		}
 
 		public Uri StartSession(IReadOnlyDictionary<string, string> parameters, Uri returnUri)

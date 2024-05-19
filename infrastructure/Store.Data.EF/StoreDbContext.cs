@@ -44,7 +44,8 @@ namespace Store.Data.EF
                         Title = "Белый клык",
                         Description = "Про пса",
                         Price = 3.33m,
-                    },
+                        Image = "/images/10.png"
+					},
                     new BookDto
                     {
                         Id = 2,
@@ -53,7 +54,8 @@ namespace Store.Data.EF
                         Title = "Refactoring",
                         Description = "As the application of object technology--particularly the Java programming language--has become commonplace, a new problem has emerged to confront the software development community.",
                         Price = 12.45m,
-                    },
+						Image = "/images/book.jpeg"
+					},
                     new BookDto
                     {
                         Id = 3,
@@ -62,7 +64,8 @@ namespace Store.Data.EF
                         Title = "Мартин Иден",
                         Description = "Автобиография",
                         Price = 14.98m,
-                    }
+						Image = "/images/corgi.jpeg"
+					}
                 );
             });
         }

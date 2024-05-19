@@ -42,7 +42,8 @@ namespace Store
                 Author = book.Author,
                 Isbn = book.Isbn,
                 Description = book.Description,
-                Price = book.Price
+                Price = book.Price,
+                Image = book.Image
             };
 		}
 	}

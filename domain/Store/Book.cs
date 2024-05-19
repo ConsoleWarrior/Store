@@ -54,8 +54,12 @@ namespace Store
             get => dto.Price;
             set => dto.Price = value;
         }
-
-        internal Book(BookDto dto)
+		public string Image
+		{
+			get => dto.Image;
+			set => dto.Image = value;
+		}
+		internal Book(BookDto dto)
         {
             this.dto = dto;
         }
