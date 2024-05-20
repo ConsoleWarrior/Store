@@ -1,0 +1,24 @@
+﻿
+
+
+@{
+	ViewData["Title"] = "Добавить книгу";
+}
+<h1 class="text-center">Новая книга</h1>
+<form action="@Url.Action(nameof(BookController.AddBookResult))" method="post">
+	<div class="form-group">
+		<label for="isbn">ISBN</label>
+		<input type="text" class="form-control" name="isbn" placeholder="ISBN0000000000" value="ISBN0000000000" />
+		<label for="author">Author</label>
+		<input type="text" class="form-control" name="author" placeholder="author" value="Автор" />
+		<label for="title">Title</label>
+		<input type="text" class="form-control" name="title" placeholder="title" value="Название" />
+		<label for="description">Description</label>
+		<input type="text" class="form-control" name="description" value="Описание" />
+		<label for="price">Price</label>
+		<input type="number" step="0.01" min="0" class="form-control" name="price" placeholder="0.00" />
+		<label for="image">Image</label>
+		<input type="text" class="form-control" name="image" placeholder="images/book.jpeg" value="images/book.jpeg" />
+		<button class="btn btn-outline-success" type="submit">Добавить новую книгу в базу данных</button>
+	</div>
+</form>

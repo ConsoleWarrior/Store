@@ -88,7 +88,8 @@ namespace Store
                                          string author,
                                          string title,
                                          string description,
-                                         decimal price)
+                                         decimal price, 
+                                         string image)
             {
                 if (TryFormatIsbn(isbn, out string formattedIsbn))
                     isbn = formattedIsbn;
@@ -105,6 +106,7 @@ namespace Store
                     Title = title.Trim(),
                     Description = description?.Trim(),
                     Price = price,
+                    Image = image
                 };
             }
         }

@@ -15,7 +15,7 @@ namespace Store
             this.bookRepository = bookRepository;
         }
 
-        public IReadOnlyCollection<BookModel> GetAllByQuery(string query)
+		public IReadOnlyCollection<BookModel> GetAllByQuery(string query)
         {
             var books = Book.IsIsbn(query)
                 ? bookRepository.GetAllByIsbn(query)
@@ -45,6 +45,14 @@ namespace Store
                 Price = book.Price,
                 Image = book.Image
             };
+		}
+		public int AddNewBook(string isbn, string author, string title, string description, decimal price, string image)
+		{
+            bookRepository.AddBookToRepository(isbn, author, title, description, price, image);
+            Thread.Sleep(1000);
+            var books = bookRepository.GetAllByTitleOrAuthor(title);
+            if (books.Length == 0) throw new InvalidOperationException("Книга с таким названием не найдена, ошибка при добавлении в базу данных");
+			return books[0].Id;
 		}
 	}
 }

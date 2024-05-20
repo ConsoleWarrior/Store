@@ -13,6 +13,11 @@ namespace Store.Tests
         public Book[] ResultGetAllByIds { get; set; }
         public Book ResultGetById {  get; set; }
 
+		public void AddBookToRepository(string isbn, string author, string title, string description, decimal price, string image)
+		{
+			throw new NotImplementedException();
+		}
+
 		public Book[] GetAllByIds(IEnumerable<int> bookIds)
 		{
 			return ResultGetAllByIds;

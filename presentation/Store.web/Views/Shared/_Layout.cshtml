@@ -19,6 +19,7 @@
                     <button class="btn btn-primary" type="submit" id="button-addon2">Поиск</button>
                 </div>
             </form>
+            <a class="btn btn-primary" href="@Url.Action("InputNewBook","Book")">Добавить книгу</a>
             <span class="x me-2">
                 @{
                     if (Context.Session.TryGetCart(out Cart cart) && cart.TotalCount > 0)

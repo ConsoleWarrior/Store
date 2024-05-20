@@ -69,5 +69,14 @@ namespace Store.Data.EF
 
             return Book.Mapper.Map(dto);
         }
+
+        public void AddBookToRepository(string isbn, string author, string title, string description, decimal price, string image)
+        {
+            var dbContext = dbContextFactory.Create(typeof(BookRepository));
+            var dto = Book.DtoFactory.Create(isbn, author, title, description, price, image);
+            dbContext.Books.Add(dto);
+            dbContext.SaveChanges();
+            //return Book.Mapper.Map(dto);
+        }
     }
 }
