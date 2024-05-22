@@ -42,7 +42,7 @@ namespace Store.web.Controllers
             orderService.AddBook(bookId, count);
             return RedirectToAction("Index", "Book", new { id = bookId });
         }
-        [HttpPost]
+		[HttpPost]
         public IActionResult RemoveItem(int bookId)
         {
             var model = orderService.RemoveBook(bookId);

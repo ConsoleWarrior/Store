@@ -15,7 +15,6 @@ else
 	<ul class="listBooks">
 		@foreach (var book in Model)
 		{
-			@* <li><a href="@Url.Action("Index", "Book", new{id = book.Id})">@book.Title</a></li> *@
 			<li class="li-container">
 				<a href="@Url.Action("Index", "Book", new{id = book.Id})" class="book">
 					<div class="cover">
@@ -23,7 +22,7 @@ else
 					</div>
 					<div class="info">
 						<div class="title bg-warning"><strong>@book.Title</strong></div>
-						<div class="author">@book.Author</div>
+						<div class="author"><strong>@book.Author</strong></div>
 						<div class="description">@book.Description</div>
 					</div>
 

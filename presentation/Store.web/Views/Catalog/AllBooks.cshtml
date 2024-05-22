@@ -1,13 +1,45 @@
-﻿
+﻿@model IReadOnlyCollection<BookModel>
 
 @{
-	ViewData["Title"] = "Все книги";
+	ViewData["Title"] = "Все книги в базе данных";
 }
 <link rel="stylesheet" href="~/css/catalog2.css">
 
-<p class="text-center">ТЕСТ 2 КАТОЛОГ</p>
+<p class="text-center">Все книги в базе данных</p>
+@if (Model == null || Model.Count == 0)
+{
+	<p>По вашему запросу ничего не найдено</p>
+}
+else
+{
+	<ul class="listBooks">
+		@foreach (var book in Model)
+		{
+			@book.Id
+			@if (!book.Image.StartsWith("http")) book.Image = "/" + book.Image;
+			<li class="li-container">
+				<a href="@Url.Action("Index", "Book", new{id = book.Id})" class="book">
+					<div class="cover">
+						<img src="@book.Image" alt="@book.Image">
+					</div>
+					<div class="info">
+						<div class="title bg-warning"><strong>@book.Title</strong></div>
+						<div class="author"><strong>@book.Author</strong></div>
+						<div class="description">@book.Description</div>
+					</div>
 
-<ul class="listBooks">
+				</a>
+				<div class="price">
+					<form action="@Url.Action(nameof(OrderController.AddItem), "Order")" method="post">
+						<input type="hidden" name="bookId" value="@book.Id" />
+						<button class="btn btn-outline-success" type="submit">@Math.Round(book.Price, 2)₽</button>
+					</form>
+				</div>
+			</li>
+		}
+	</ul>
+}
+@* <ul class="listBooks">
 	<li class="li-container">
 		<a href="" class="book">
 			<div class="cover">
@@ -35,5 +67,5 @@
 		</a>
 	</li>
 
-</ul>
+</ul> *@
 

@@ -3,9 +3,9 @@
 @{
     ViewData["Title"] = Model.Title;
 }
-
+@if (!Model.Image.StartsWith("http")) Model.Image = "/" + Model.Image;
 <div class="text-center">
-    <img style="max-width:25%;max-height:25%;" src="/@Model.Image" alt="@Model.Image" />
+    <img style="max-width:25%;max-height:25%;" src="@Model.Image" alt="@Model.Image" />
     <h1>@Model.Title</h1>
     <p><strong>@Model.Author</strong></p>
     <p>@Model.Description</p>
@@ -13,6 +13,10 @@
     <form action="@Url.Action(nameof(OrderController.AddItem), "Order")" method="post">
         <input type="hidden" name="bookId" value="@Model.Id" />
         <button class="btn btn-outline-success" type="submit">Добавить экземпляр в корзину</button>
+    </form>
+    <form action="@Url.Action(nameof(BookController.RemoveBookFromDB), "Book")" method="post">
+        <input type="hidden" name="bookId" value="@Model.Id" />
+        <button class="btn btn-outline-success" type="submit">Удалить из бд</button>
     </form>
 </div>
 

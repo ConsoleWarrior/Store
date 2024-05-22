@@ -4,9 +4,9 @@
     ViewData["Title"] = "Книга добавлена";
 }
 <h1 class="text-center">Новая книга успешно добавлена в базу данных</h1>
-
+@if (!Model.Image.StartsWith("http")) Model.Image = "/" + Model.Image;
 <div class="text-center">
-    <img style="max-width:25%;max-height:25%;" src="/@Model.Image" alt="@Model.Image" />
+    <img style="max-width:25%;max-height:25%;" src="@Model.Image" alt="@Model.Image" />
     <h1>@Model.Title</h1>
     <p><strong>@Model.Author</strong></p>
     <p>@Model.Description</p>
