@@ -90,7 +90,7 @@ namespace Store.Contractors
 
 			var description = $"Город: {cityName}\nПостамат: {postamateName}";
 
-			return new OrderDelivery(Name, description, 150m, parameters);
+			return new OrderDelivery(Name, description, 100m, parameters);
 		}
 	}
 }

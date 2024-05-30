@@ -54,8 +54,12 @@ namespace Store
             get => dto.Price;
             set => dto.Price = value;
         }
-
-        internal Book(BookDto dto)
+		public string Image
+		{
+			get => dto.Image;
+			set => dto.Image = value;
+		}
+		internal Book(BookDto dto)
         {
             this.dto = dto;
         }
@@ -84,7 +88,8 @@ namespace Store
                                          string author,
                                          string title,
                                          string description,
-                                         decimal price)
+                                         decimal price, 
+                                         string image)
             {
                 if (TryFormatIsbn(isbn, out string formattedIsbn))
                     isbn = formattedIsbn;
@@ -101,6 +106,7 @@ namespace Store
                     Title = title.Trim(),
                     Description = description?.Trim(),
                     Price = price,
+                    Image = image
                 };
             }
         }

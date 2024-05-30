@@ -51,12 +51,17 @@ namespace Store.Data.EF
             var dbContext = dbContextFactory.Create(typeof(BookRepository));
 
             var parameter = new SqlParameter("@titleOrAuthor", titleOrAuthor);
-            var dtos = dbContext.Books
-                                      .FromSqlRaw("SELECT * FROM Books WHERE CONTAINS((Author, Title), @titleOrAuthor)",
-                                                  parameter)
-                                      .ToArray();
+            BookDto[] dtos;
+            try
+			{
+				dtos = dbContext.Books
+									  .FromSqlRaw("SELECT * FROM Books WHERE CONTAINS((Author, Title), @titleOrAuthor)",
+												  parameter)
+									  .ToArray();
+			} catch (Exception ex) { dtos = null; }
 
-            return dtos.Select(Book.Mapper.Map)
+
+            return dtos?.Select(Book.Mapper.Map)
                        .ToArray();
         }
 
@@ -69,5 +74,35 @@ namespace Store.Data.EF
 
             return Book.Mapper.Map(dto);
         }
-    }
+
+        public void AddBookToRepository(string isbn, string author, string title, string description, decimal price, string image)
+        {
+            var dbContext = dbContextFactory.Create(typeof(BookRepository));
+            var dto = Book.DtoFactory.Create(isbn, author, title, description, price, image);
+            dbContext.Books.Add(dto);
+            dbContext.SaveChanges();
+        }
+
+		public Book[] GetAll()
+		{
+			var dbContext = dbContextFactory.Create(typeof(BookRepository));
+			var dtos = dbContext.Books.ToArray();
+			return dtos.Select(Book.Mapper.Map)
+					   .ToArray();
+		}
+        public int GetLastAddedBook()
+        {
+			var dbContext = dbContextFactory.Create(typeof(BookRepository));
+            var dto = dbContext.Books.FromSqlRaw("SELECT top 1 * FROM Books order by id desc").ToArray();
+            return dto[0].Id;
+		}
+        public void RemoveBookFromRepository(int bookId)
+        {
+			var dbContext = dbContextFactory.Create(typeof(BookRepository));
+
+            dbContext.Books.Remove(dbContext.Books
+                                     .Single(book => book.Id == bookId));
+            dbContext.SaveChanges();
+        }
+	}
 }

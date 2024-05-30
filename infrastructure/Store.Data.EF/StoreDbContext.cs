@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Store.Data.EF
 {
@@ -25,7 +26,7 @@ namespace Store.Data.EF
         {
             modelBuilder.Entity<BookDto>(action =>
             {
-                action.Property(dto => dto.Isbn)
+				action.Property(dto => dto.Isbn)
                       .HasMaxLength(17)
                       .IsRequired();
 
@@ -39,11 +40,12 @@ namespace Store.Data.EF
                     new BookDto
                     {
                         Id = 1,
-                        Isbn = "ISBN000000001",
+                        Isbn = "ISBN0000000001",
                         Author = "Джек Лондон",
                         Title = "Белый клык",
                         Description = "Про пса",
                         Price = 3.33m,
+                        Image = "images/corgi.jpeg"
                     },
                     new BookDto
                     {
@@ -53,7 +55,8 @@ namespace Store.Data.EF
                         Title = "Refactoring",
                         Description = "As the application of object technology--particularly the Java programming language--has become commonplace, a new problem has emerged to confront the software development community.",
                         Price = 12.45m,
-                    },
+						Image = "images/book.jpeg"
+					},
                     new BookDto
                     {
                         Id = 3,
@@ -62,7 +65,19 @@ namespace Store.Data.EF
                         Title = "Мартин Иден",
                         Description = "Автобиография",
                         Price = 14.98m,
+						Image = "images/10.png"
+                    },                 
+                    new BookDto
+                    {
+                        Id = 4,
+                        Isbn = "ISBN013110163",
+                        Author = "Джек Лондон",
+                        Title = "Джон Ячменное зерно",
+                        Description = "Про алкаша",
+                        Price = 9.99m,
+                        Image = "images/back.jpeg"
                     }
+
                 );
             });
         }

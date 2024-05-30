@@ -1,21 +1,39 @@
 ﻿@model IReadOnlyCollection<BookModel>
 
 @{
-    ViewData["Title"] = "Результат поиска";
+	ViewData["Title"] = "Результат поиска";
 }
-
-<h1>Результат поиска:</h1>
+<link rel="stylesheet" href="~/css/catalog2.css">
+<h1 class="text-center">Результат поиска:</h1>
 
 @if (Model == null || Model.Count == 0)
 {
-    <p>По вашему запросу ничего не найдено</p>
+	<p>По вашему запросу ничего не найдено</p>
 }
 else
 {
-    <ul>
-        @foreach (var book in Model)
-        {
-            <li><a href="@Url.Action("Index", "Book", new{id = book.Id})">@book.Title</a></li>
-        }
-    </ul>
+	<ul class="listBooks">
+		@foreach (var book in Model)
+		{
+			<li class="li-container">
+				<a href="@Url.Action("Index", "Book", new{id = book.Id})" class="book">
+					<div class="cover">
+						<img src="@book.Image" alt="book">
+					</div>
+					<div class="info">
+						<div class="title bg-warning"><strong>@book.Title</strong></div>
+						<div class="author"><strong>@book.Author</strong></div>
+						<div class="description">@book.Description</div>
+					</div>
+
+				</a>
+				<div class="price">
+					<form action="@Url.Action(nameof(OrderController.AddItem), "Order")" method="post">
+						<input type="hidden" name="bookId" value="@book.Id" />
+						<button class="btn btn-outline-success" type="submit">@Math.Round(book.Price, 2)₽</button>
+					</form>
+				</div>
+			</li>
+		}
+	</ul>
 }

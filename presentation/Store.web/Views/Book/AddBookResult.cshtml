@@ -1,8 +1,9 @@
 ﻿@model BookModel
 
 @{
-    ViewData["Title"] = Model.Title;
+    ViewData["Title"] = "Книга добавлена";
 }
+<h1 class="text-center">Новая книга успешно добавлена в базу данных</h1>
 @if (!Model.Image.StartsWith("http")) Model.Image = "/" + Model.Image;
 <div class="text-center">
     <img style="max-width:25%;max-height:25%;" src="@Model.Image" alt="@Model.Image" />
@@ -14,12 +15,4 @@
         <input type="hidden" name="bookId" value="@Model.Id" />
         <button class="btn btn-outline-success" type="submit">Добавить экземпляр в корзину</button>
     </form>
-    <form action="@Url.Action(nameof(BookController.RemoveBookFromDB), "Book")" method="post">
-        <input type="hidden" name="bookId" value="@Model.Id" />
-        <button class="btn btn-outline-success" type="submit">Удалить из бд</button>
-    </form>
 </div>
-
-
-
-

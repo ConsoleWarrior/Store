@@ -12,6 +12,8 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-light bg-light">
             <a class="navbar-brand bg-secondary ms-2" asp-area="" asp-controller="Home" asp-action="Index">Онлайн-магазин на C#</a>
+            <a class="btn btn-primary" href="@Url.Action("Index","Catalog")">Каталог</a>
+            <a class="btn btn-primary ms-2" href="@Url.Action("InputNewBook","Book")">Добавить книгу</a>
             <form class="d-flex mx-auto" action="@Url.Action("Index","Search")" method="get">
                 <div class="input-group">
                     <input size="100" class="form-control" type="search" name="query" placeholder="автор/название/ISBN" aria-describedby="button-addon2" />
@@ -22,7 +24,7 @@
                 @{
                     if (Context.Session.TryGetCart(out Cart cart) && cart.TotalCount > 0)
                     {
-                        <a href="@Url.Action("Index", "Order")"> Товаров @cart.TotalCount на сумму @cart.TotalPrice </a>
+                        <a href="@Url.Action("Index", "Order")"> Товаров @cart.TotalCount на сумму @Math.Round(cart.TotalPrice, 2)₽ </a>
                     }
                     else
                     {
@@ -39,8 +41,8 @@
         </main>
     </div>
 
-    <div id="bottom-right" class="elfsight-app-8c41d276-7245-42bf-b937-305ba404482d" data-elfsight-app-lazy></div>
-    <script src="https://static.elfsight.com/platform/platform.js" data-use-service-core defer></script>
+@*     <div id="bottom-right" class="elfsight-app-8c41d276-7245-42bf-b937-305ba404482d" data-elfsight-app-lazy></div>
+    <script src="https://static.elfsight.com/platform/platform.js" data-use-service-core defer></script> *@
     
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

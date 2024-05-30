@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Store.Data.EF;
 
@@ -10,9 +11,11 @@ using Store.Data.EF;
 namespace Store.Data.EF.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    partial class StoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240519111834_ImageUpdate")]
+    partial class ImageUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,16 +90,6 @@ namespace Store.Data.EF.Migrations
                             Isbn = "ISBN0131101633",
                             Price = 14.98m,
                             Title = "Мартин Иден"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Author = "Джек Лондон",
-                            Description = "Автобиография - V2",
-                            Image = "/images/back.jpeg",
-                            Isbn = "ISBN013110163",
-                            Price = 9.99m,
-                            Title = "Джон Ячменное зерно"
                         });
                 });
 
