@@ -5,7 +5,7 @@
 }
 <link rel="stylesheet" href="~/css/catalog2.css">
 
-<p class="text-center">Все книги в базе данных</p>
+<p class="text-center">Все книги в базе данных: @Model.Count</p>
 @if (Model == null || Model.Count == 0)
 {
 	<p>По вашему запросу ничего не найдено</p>
@@ -15,7 +15,7 @@ else
 	<ul class="listBooks">
 		@foreach (var book in Model)
 		{
-			@book.Id
+			
 			@if (!book.Image.StartsWith("http")) book.Image = "/" + book.Image;
 			<li class="li-container">
 				<a href="@Url.Action("Index", "Book", new{id = book.Id})" class="book">
@@ -27,7 +27,7 @@ else
 						<div class="author"><strong>@book.Author</strong></div>
 						<div class="description">@book.Description</div>
 					</div>
-
+					<p>ID(@book.Id)</p>
 				</a>
 				<div class="price">
 					<form action="@Url.Action(nameof(OrderController.AddItem), "Order")" method="post">
