@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace Store
 {
     public interface IBookRepository
     {
-        Book[] GetAllByTitleOrAuthor(string titleOrAuthorPart);
-        Book[] GetAllByIsbn(string isbn);
-        Book GetById(int id);
-        Book[] GetAllByIds(IEnumerable<int> bookIds);
-		void AddBookToRepository(string isbn, string author, string title, string description, decimal price, string image);
-		Book[] GetAll();
-        int GetLastAddedBook();
-        void RemoveBookFromRepository(int id);
+		Task AddBookToRepositoryAsync(string isbn, string author, string title, string description, decimal price, string image);
+		Task<Book[]> GetAllAsync();
+        Task<int> GetLastAddedBookAsync();
+        Task RemoveBookFromRepositoryAsync(int id);
+        Task<Book[]> GetAllByIsbnAsync(string query);
+        Task<Book[]> GetAllByTitleOrAuthorAsync(string query);
+        Task<Book> GetByIdAsync(int id);
+        Task<Book[]> GetAllByIdsAsync(IEnumerable<int> bookIds);
     }
 }

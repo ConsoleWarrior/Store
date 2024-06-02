@@ -12,13 +12,15 @@ namespace Store.web.Controllers
 		{
 			this.bookService = bookService;
 		}
+
 		public IActionResult Index()
         {
             return View();
         }
-		public IActionResult AllBooks()
+
+		public async Task<IActionResult> AllBooks()
 		{
-			var books = bookService.GetAll();
+			var books = await bookService.GetAllAsync();
 			return View(books);
 		}
 	}

@@ -15,23 +15,17 @@ namespace Store
             this.bookRepository = bookRepository;
         }
 
-		public IReadOnlyCollection<BookModel> GetAllByQuery(string query)
+        public async Task<IReadOnlyCollection<BookModel>> GetAllByQueryAsync(string query)
         {
             var books = Book.IsIsbn(query)
-                ? bookRepository.GetAllByIsbn(query)
-                : (query != null) ? bookRepository.GetAllByTitleOrAuthor(query)
+                ? await bookRepository.GetAllByIsbnAsync(query)
+                : (query != null) ? await bookRepository.GetAllByTitleOrAuthorAsync(query)
                 : null;
             return books?.Select(Map).ToArray();
         }
 
-		public BookModel GetById(int id)
-		{
-			var book = bookRepository.GetById(id);
-            return Map(book);
-		}
-
-		private BookModel Map(Book book)
-		{
+        private BookModel Map(Book book)
+        {
             return new BookModel
             {
                 Id = book.Id,
@@ -42,24 +36,27 @@ namespace Store
                 Price = book.Price,
                 Image = book.Image
             };
-		}
-		public int AddNewBook(string isbn, string author, string title, string description, decimal price, string image)
-		{
-            bookRepository.AddBookToRepository(isbn, author, title, description, price, image);
-            //Thread.Sleep(1000);
-            //var books = bookRepository.GetAllByTitleOrAuthor(title);
-            //if (books.Length == 0) throw new InvalidOperationException("Книга с таким названием не найдена, ошибка при добавлении в базу данных");
-			return bookRepository.GetLastAddedBook();
-		}
-        public void Remove(int id)
-        {
-            bookRepository.RemoveBookFromRepository(id);
         }
-		public IReadOnlyCollection<BookModel> GetAll()
-		{
-            var books = bookRepository.GetAll();
+        public async Task<int> AddNewBookAsync(string isbn, string author, string title, string description, decimal price, string image)
+        {
+            await bookRepository.AddBookToRepositoryAsync(isbn, author, title, description, price, image);
+            return await bookRepository.GetLastAddedBookAsync();
+        }
+        public async Task RemoveBookAsync(int id)
+        {
+            await bookRepository.RemoveBookFromRepositoryAsync(id);
+        }
+        public async Task<IReadOnlyCollection<BookModel>> GetAllAsync()
+        {
+            var books = await bookRepository.GetAllAsync();
 
-			return books?.Select(Map).ToArray();
-		}
-	}
+            return books?.Select(Map).ToArray();
+        }
+
+        public async Task<BookModel> GetByIdAsync(int id)
+        {
+            var book = await bookRepository.GetByIdAsync(id);
+            return Map(book);
+        }
+    }
 }

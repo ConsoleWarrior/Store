@@ -13,19 +13,39 @@ namespace Store.Tests
         public Book[] ResultGetAllByIds { get; set; }
         public Book ResultGetById {  get; set; }
 
-		public void AddBookToRepository(string isbn, string author, string title, string description, decimal price, string image)
+		public void AddBookToRepositoryAsync(string isbn, string author, string title, string description, decimal price, string image)
 		{
 			throw new NotImplementedException();
 		}
 
-		public Book[] GetAllByIds(IEnumerable<int> bookIds)
+        public Book[] GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Book[]> GetAllAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Book[] GetAllByIds(IEnumerable<int> bookIds)
 		{
 			return ResultGetAllByIds;
 		}
 
-		public Book[] GetAllByIsbn(string isbn)
+        public Task<Book[]> GetAllByIdsAsync(IEnumerable<int> bookIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Book[] GetAllByIsbn(string isbn)
         {
             return ResultGetAllByIsbn;
+        }
+
+        public Task<Book[]> GetAllByIsbnAsync(string query)
+        {
+            throw new NotImplementedException();
         }
 
         public Book[] GetAllByTitleOrAuthor(string titleOrAuthorPart)
@@ -33,9 +53,44 @@ namespace Store.Tests
             return ResultGetAllByTitleOrAuthor;
         }
 
+        public Task<Book[]> GetAllByTitleOrAuthorAsync(string query)
+        {
+            throw new NotImplementedException();
+        }
+
         public Book GetById(int id)
         {
             return ResultGetById;
+        }
+
+        public Task<Book> GetByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetLastAddedBook()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> GetLastAddedBookAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveBookFromRepository(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RemoveBookFromRepositoryAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IBookRepository.AddBookToRepositoryAsync(string isbn, string author, string title, string description, decimal price, string image)
+        {
+            throw new NotImplementedException();
         }
     }
 }

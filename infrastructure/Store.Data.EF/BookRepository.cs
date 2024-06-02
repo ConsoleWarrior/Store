@@ -17,92 +17,91 @@ namespace Store.Data.EF
             this.dbContextFactory = dbContextFactory;
         }
 
-        public Book[] GetAllByIds(IEnumerable<int> bookIds)
+        public async Task AddBookToRepositoryAsync(string isbn, string author, string title, string description, decimal price, string image)
         {
             var dbContext = dbContextFactory.Create(typeof(BookRepository));
-
-            var dtos = dbContext.Books
-                                      .Where(book => bookIds.Contains(book.Id))
-                                      .ToArray();
-
-            return dtos.Select(Book.Mapper.Map)
-                       .ToArray();
+            var dto = Book.DtoFactory.Create(isbn, author, title, description, price, image);
+            dbContext.Books.Add(dto);
+            await dbContext.SaveChangesAsync();
         }
 
-        public Book[] GetAllByIsbn(string isbn)
+		public async Task<Book[]> GetAllAsync()
+		{
+			var dbContext = dbContextFactory.Create(typeof(BookRepository));
+			var dtos = await dbContext.Books.ToArrayAsync();
+			return dtos.Select(Book.Mapper.Map)
+					   .ToArray();
+		}
+
+        public async Task<int> GetLastAddedBookAsync()
+        {
+			var dbContext = dbContextFactory.Create(typeof(BookRepository));
+            var dto = await dbContext.Books.FromSqlRaw("SELECT top 1 * FROM Books order by id desc").ToArrayAsync();
+            return dto[0].Id;
+		}
+        public async Task RemoveBookFromRepositoryAsync(int bookId)
+        {
+			var dbContext = dbContextFactory.Create(typeof(BookRepository));
+
+            dbContext.Books.Remove(dbContext.Books
+                                     .Single(book => book.Id == bookId));
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task<Book[]> GetAllByIsbnAsync(string isbn)
         {
             var dbContext = dbContextFactory.Create(typeof(BookRepository));
 
             if (Book.TryFormatIsbn(isbn, out string formattedIsbn))
             {
-                var dtos = dbContext.Books
+                var dtos = await dbContext.Books
                                           .Where(book => book.Isbn == formattedIsbn)
-                                          .ToArray();
+                                          .ToArrayAsync();
 
-                return dtos.Select(Book.Mapper.Map)
-                           .ToArray();
+                return dtos.Select(Book.Mapper.Map).ToArray();
             }
 
             return new Book[0];
         }
 
-        public Book[] GetAllByTitleOrAuthor(string titleOrAuthor)
+        public async Task<Book[]> GetAllByTitleOrAuthorAsync(string titleOrAuthor)
         {
             var dbContext = dbContextFactory.Create(typeof(BookRepository));
 
             var parameter = new SqlParameter("@titleOrAuthor", titleOrAuthor);
             BookDto[] dtos;
             try
-			{
-				dtos = dbContext.Books
-									  .FromSqlRaw("SELECT * FROM Books WHERE CONTAINS((Author, Title), @titleOrAuthor)",
-												  parameter)
-									  .ToArray();
-			} catch (Exception ex) { dtos = null; }
+            {
+                dtos = await dbContext.Books
+                                      .FromSqlRaw("SELECT * FROM Books WHERE CONTAINS((Author, Title), @titleOrAuthor)",
+                                                  parameter)
+                                      .ToArrayAsync();
+            }
+            catch (Exception ex) { dtos = null; }
 
 
-            return dtos?.Select(Book.Mapper.Map)
-                       .ToArray();
+            return dtos?.Select(Book.Mapper.Map).ToArray();
         }
 
-        public Book GetById(int id)
+        public async Task<Book> GetByIdAsync(int id)
         {
             var dbContext = dbContextFactory.Create(typeof(BookRepository));
 
-            var dto = dbContext.Books
-                                     .Single(book => book.Id == id);
+            var dto = await dbContext.Books.SingleAsync(book => book.Id == id);
 
             return Book.Mapper.Map(dto);
         }
 
-        public void AddBookToRepository(string isbn, string author, string title, string description, decimal price, string image)
+        public async Task<Book[]> GetAllByIdsAsync(IEnumerable<int> bookIds)
         {
             var dbContext = dbContextFactory.Create(typeof(BookRepository));
-            var dto = Book.DtoFactory.Create(isbn, author, title, description, price, image);
-            dbContext.Books.Add(dto);
-            dbContext.SaveChanges();
-        }
 
-		public Book[] GetAll()
-		{
-			var dbContext = dbContextFactory.Create(typeof(BookRepository));
-			var dtos = dbContext.Books.ToArray();
-			return dtos.Select(Book.Mapper.Map)
-					   .ToArray();
-		}
-        public int GetLastAddedBook()
-        {
-			var dbContext = dbContextFactory.Create(typeof(BookRepository));
-            var dto = dbContext.Books.FromSqlRaw("SELECT top 1 * FROM Books order by id desc").ToArray();
-            return dto[0].Id;
-		}
-        public void RemoveBookFromRepository(int bookId)
-        {
-			var dbContext = dbContextFactory.Create(typeof(BookRepository));
+            var dtos = await dbContext.Books
+                                      .Where(book => bookIds.Contains(book.Id))
+                                      .ToArrayAsync();
 
-            dbContext.Books.Remove(dbContext.Books
-                                     .Single(book => book.Id == bookId));
-            dbContext.SaveChanges();
+            return dtos.Select(Book.Mapper.Map)
+                       .ToArray();
         }
-	}
+    }
 }
