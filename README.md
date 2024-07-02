@@ -1,14 +1,17 @@
 # Прототип книжного интернет-магазина
+Реализовано:
+
+-Добавление/удаление книг в подключенной базе данных, просмотр каталога, полнотекстовый поиск по базе.
+
+-Возможность добавить книги в корзину, симуляция подтверждения номера телефона, выбора способа доставки и оплаты, завершение заказа.
+
 В проекте используются:
 * C#
 * Entity Framework и SQL
-* UnitTests
+* XUnitTests
 * Паттерны проектирования
 * Принципы SOLID
 * DDD (Domain Driven Design)
 * ASP.NET MVC
   
 (по видеоурокам https://www.youtube.com/playlist?list=PLfkikHwnACaXxUu9YGnQQp7VEYcMmuBuq)
-
-Add-Migration * -Project Store.Data.EF -StartupProject Store.web
-Update-Database
