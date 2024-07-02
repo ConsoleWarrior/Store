@@ -6,6 +6,9 @@ using Store.web.Contractors;
 using Store.YandexKassa;
 using Store.Data.EF;
 using Store.Web;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,11 +31,25 @@ builder.Services.AddSingleton<IWebContractorService, YandexKassaPaymentService>(
 builder.Services.AddDistributedMemoryCache(); //дл€ корзины
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(20); //врем€ жизни сессии
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
+	options.IdleTimeout = TimeSpan.FromMinutes(20); //врем€ жизни сессии
+	options.Cookie.HttpOnly = true;
+	options.Cookie.IsEssential = true;
 });
-
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+				.AddJwtBearer(options =>
+				{
+					options.TokenValidationParameters = new TokenValidationParameters
+					{
+						ValidateIssuer = true,
+						ValidateAudience = true,
+						ValidateLifetime = true,
+						ValidateIssuerSigningKey = true,
+						ValidIssuer = builder.Configuration["Jwt:Issuer"],
+						ValidAudience = builder.Configuration["Jwt:Audience"],
+						//IssuerSigningKey = new RsaSecurityKey(RSAExtensions.GetPublicKey())
+						IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+					};
+				});
 
 var app = builder.Build();
 
