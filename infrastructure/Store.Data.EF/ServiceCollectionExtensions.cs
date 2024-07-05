@@ -19,6 +19,7 @@ namespace Store.Data.EF
             services.AddSingleton<DbContextFactory>();
             services.AddSingleton<IBookRepository, BookRepository>();
             services.AddSingleton<IOrderRepository, OrderRepository>();
+            services.AddSingleton<ILoginRepository, LoginRepository>();
 
             return services;
         }

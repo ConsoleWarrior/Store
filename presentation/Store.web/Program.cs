@@ -20,6 +20,7 @@ builder.Services.AddControllersWithViews(options =>
 });
 builder.Services.AddSingleton<BookService>();
 builder.Services.AddSingleton<OrderService>();
+builder.Services.AddSingleton<LoginService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddEfRepositories(builder.Configuration.GetConnectionString("Store"));
 builder.Services.AddSingleton<INotificationService, DebugNotificationService>();
@@ -54,11 +55,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 var app = builder.Build();
 
 // Configure the HTTP request pipeline. Конфигурирование
-//if (!app.Environment.IsDevelopment())
-//{
-//    app.UseExceptionHandler("/Home/Error");
-//}
-app.UseExceptionHandler("/Home/Error");
+if (!app.Environment.IsDevelopment())
+{
+	app.UseExceptionHandler("/Home/Error");
+}
+//app.UseExceptionHandler("/Home/Error");
 app.UseStaticFiles();
 
 app.UseRouting();

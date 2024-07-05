@@ -1,0 +1,17 @@
+﻿@model LoginResponseWithToken
+
+@{
+    ViewData["Title"] = "Вход на сайт";
+}
+
+@if (!Model.Result)
+{
+    <p>Такой пользователь не найден либо пароль не верный</p>
+}
+else
+{
+    <p>Вы вошли на сайт как:</p>
+    <p>@Model.Name</p>
+    <p>в роли: @Model.Role</p>
+    <p>@Model.Token</p>
+}

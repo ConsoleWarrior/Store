@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewData["Title"] = "Регистрация";
+}
+
+<h1>Регистрация</h1>
+<form action="@Url.Action(nameof(LoginController.Registration))" method="post">
+    <div class="form-group">
+        <label for="name">Логин</label>
+        <input type="text" class="form-control" name="name" />
+    </div>
+    <div class="form-group">
+        <label for="email">Почта</label>
+        <input type="text" class="form-control" name="email" />
+    </div>
+    <div class="form-group">
+        <label for="phone">Телефон</label>
+        <input type="text" class="form-control" name="phone" />
+    </div>
+    <div class="form-group">
+        <label for="password">Пароль</label>
+        <input type="text" class="form-control" name="password" />
+    </div>
+    <div class="form-group">
+        <label for="passwordConfirmation">Пароль еще раз</label>
+        <input type="text" class="form-control" name="passwordConfirmation" />
+    </div>
+    <button class="btn btn-outline-success" type="submit">Зарегистрироваться</button>
+</form>
